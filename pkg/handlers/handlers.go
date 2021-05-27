@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/Zhabskyi/go-web-app/pkg/config"
+	"github.com/Zhabskyi/go-web-app/pkg/models"
 	"github.com/Zhabskyi/go-web-app/pkg/render"
 )
 
@@ -24,11 +25,17 @@ func NewHandlers(r *Repository) {
 	Repo = r
 }
 
-func Home(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "home.page.html")
+func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, "home.page.html", &models.TemplateData{})
 }
 
 // About is the about page handler
-func About(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "about.page.html")
+func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
+
+	stringMap := make(map[string]string)
+	stringMap["test"] = "Hello bud!"
+
+	render.RenderTemplate(w, "about.page.html", &models.TemplateData{
+		StringMap: stringMap,
+	})
 }
